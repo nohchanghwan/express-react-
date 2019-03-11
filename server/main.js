@@ -1,15 +1,52 @@
 import express from 'express';
 import path from 'path';
 
-// Development모드
+//Development모드
 import WebpackDevServer from 'webpack-dev-server';
 import webpack from 'webpack';
+
+//HTTP요청 + JSON파싱
+import morgan from 'morgan'; 
+import bodyParser from 'body-parser'; 
+
+//MongoDB
+import mongoose from 'mongoose';
+import session from 'express-session';
+
+//API라우터
+import api from './routes';
 
 const app = express();
 const port = 3000;
 const devPort = 4000;
 
+//MongoDB커넥션
+const db = mongoose.connection;
+db.on('error', console.error);
+db.once('open', () => { console.log('Connected to mongodb server'); });
+// mongoose.connect('mongodb://username:password@host:port/database=');
+mongoose.connect('mongodb://localhost/codelab');
+
+//API라우터 불러와서사용
+app.use('/api', api);
+//HTTP + JSON
+app.use(morgan('dev'));
+app.use(bodyParser.json());
+//세션관리 
+app.use(session({
+    secret: 'CodeLab1$1$234',
+    resave: false,
+    saveUninitialized: true
+}));
+
+//Express 에러처리
+app.use(function(err, req, res, next) {
+    console.error(err.stack);
+    res.status(500).send('Something broke!');
+  });
+
 app.use('/', express.static(path.join(__dirname, './../public')));
+
 
 app.get('/hello', (req, res) => {
     return res.send('Hello CodeLab');

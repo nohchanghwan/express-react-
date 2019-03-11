@@ -1,4 +1,6 @@
 var webpack = require('webpack');
+var path = require('path');
+
 
 module.exports = {
 
@@ -8,8 +10,9 @@ module.exports = {
     
     entry: [
         './src/index.js',
-        'webpack-dev-server/client?http://0.0.0.0:4000', // 개발서버의 포트가 이 부분에 입력되어야 제대로 작동합니다
-        'webpack/hot/only-dev-server'
+        'webpack-dev-server/client?http://0.0.0.0:4000',
+        'webpack/hot/only-dev-server',
+        './src/style.css'
     ],
 
     output: {
@@ -51,15 +54,23 @@ module.exports = {
     module: {
         loaders: [
             {
-                test: /\.js$/,
-                loaders: ['react-hot', 'babel?' + JSON.stringify({
-                    cacheDirectory: true,
-                    presets: ['es2015', 'react']
-                })],
+                test: /.js$/,
+                loader: 'babel',
                 exclude: /node_modules/,
+                query: {
+                    cacheDirectory: true,
+                    presets: ['es2015', 'react'],
+                    plugins: ["react-hot-loader/babel"]
+                }
+            },
+            {
+                test: /\.css$/,
+                loader: 'style!css-loader'
             }
         ]
+    },
+    resolve: {
+        root: path.resolve('./src')
     }
-
 
 };
