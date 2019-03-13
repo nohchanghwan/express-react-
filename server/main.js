@@ -29,6 +29,12 @@ mongoose.connect('mongodb://localhost/codelab');
 
 //API라우터 불러와서사용
 app.use('/api', api);
+
+/* support client-side routing */
+app.get('*', (req, res) => {
+    res.sendFile(path.resolve(__dirname, './../public/index.html'));
+});
+
 //HTTP + JSON
 app.use(morgan('dev'));
 app.use(bodyParser.json());

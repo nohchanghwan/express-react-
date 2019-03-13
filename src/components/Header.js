@@ -40,7 +40,6 @@ class Header extends React.Component {
     }
 }
 
-//Header 컴포넌트 PropTypes 및 defaultProps 설정하기
 Header.propTypes = {
     isLoggedIn: React.PropTypes.bool,
     onLogout: React.PropTypes.func
@@ -50,5 +49,6 @@ Header.defaultProps = {
     isLoggedIn: false,
     onLogout: () => { console.error("logout function not defined");}
 };
+
 
 export default Header;
