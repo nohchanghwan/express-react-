@@ -1,13 +1,16 @@
 import React from 'react';
+import { Link } from 'react-router';
 
 class Header extends React.Component {
     render() {
 
         const loginButton = (
             <li>
-                <a>
+                {/*a태크를 안쓰고 Link를 쓰는이유는 컴포넌트페이지를 새로로딩되는것을막고 */
+                /* 라우트에 보여지는 내용만 변하게 해줌 */}
+                <Link to="/login">
                     <i className="material-icons">vpn_key</i>
-                </a>
+                </Link>
             </li>
         );
 
@@ -23,7 +26,7 @@ class Header extends React.Component {
         return (
             <nav>
                 <div className="nav-wrapper blue darken-1">
-                    <a className="brand-logo center">MEMOPAD</a>
+                    <Link to="/" className="brand-logo center">MEMOPAD</Link>
 
                     <ul>
                         <li><a><i className="material-icons">search</i></a></li>
